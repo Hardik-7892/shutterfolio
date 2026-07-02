@@ -47,6 +47,14 @@
       "category": "Street",
       "description": "Neon reflections on a rainy night.",
       "order": 6
+    },
+    {
+      "id": "camera",
+      "title": "camera",
+      "image": "assets/images/1783028587607-ycm7q5.png",
+      "category": "test",
+      "description": "wow - a camera!",
+      "order": 7
     }
   ]
 }

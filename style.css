@@ -35,6 +35,7 @@
   --lbox-close: #fff;
   --btn-primary-bg: #333;
   --btn-primary-text: #fff;
+  --btn-primary-hover-bg: #444;
   --radius: 8px;
   --header-height: 60px;
   --section-padding: 80px 0;
@@ -73,6 +74,7 @@
   --lbox-close: #fff;
   --btn-primary-bg: #1a1a1a;
   --btn-primary-text: #fff;
+  --btn-primary-hover-bg: #333;
 }
 
 html {
@@ -141,7 +143,7 @@ section {
 }
 
 .btn-primary:hover {
-  background: #333;
+  background: var(--btn-primary-hover-bg);
   transform: translateY(-1px);
 }
 

@@ -272,7 +272,6 @@ async function savePhoto() {
 
   if (isEdit) {
     var idx = parseInt(editIndex);
-    var idx = parseInt(editIndex);
     photos[idx].title = title;
     photos[idx].category = category;
     photos[idx].description = description;

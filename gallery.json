@@ -14,7 +14,8 @@
       "image": "assets/images/samples/mountain-serenity.jpg",
       "category": "Landscape",
       "description": "A peaceful mountain landscape captured during golden hour.",
-      "order": 2
+      "order": 2,
+      "featured": true
     },
     {
       "id": "quiet-contemplation",

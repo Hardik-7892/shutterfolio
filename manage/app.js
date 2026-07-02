@@ -186,7 +186,6 @@ function openAddModal() {
   document.getElementById('photo-featured').checked = false;
   document.getElementById('save-photo-btn').textContent = 'Add Photo';
   pendingImage = null;
-  document.getElementById('photo-featured').checked = !!photo.featured;
   document.getElementById('modal').style.display = 'flex';
   document.getElementById('photo-title').focus();
 }
@@ -204,6 +203,7 @@ function editPhoto(index) {
   document.getElementById('photo-title').value = photo.title || '';
   document.getElementById('photo-category').value = photo.category || '';
   document.getElementById('photo-description').value = photo.description || '';
+  document.getElementById('photo-featured').checked = !!photo.featured;
   document.getElementById('save-photo-btn').textContent = 'Save Changes';
   pendingImage = null;
 

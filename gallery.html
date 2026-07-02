@@ -8,22 +8,37 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" integrity="sha384-Rpe/8orFUm5Q1GplYBHxbuA8Az8O8C5sAoOsdbRWkqPjKFaxPgGZipj4zeHL7lxX" crossorigin="anonymous"></script>
   <script>!function(){var t=localStorage.getItem('photobase-theme')||'dark';document.documentElement.dataset.theme=t;window.toggleTheme=function(){var e=document.documentElement.dataset.theme;e=e==='dark'?'light':'dark';document.documentElement.dataset.theme=e;localStorage.setItem('photobase-theme',e)}}()</script>
   <style>
-    .gallery-page section { padding: 40px 0 80px; }
+    .gallery-page section { padding: 100px 0 80px; }
     .gallery-page .section-title { margin-bottom: 4px; }
     .gallery-page .section-subtitle { margin-bottom: 32px; }
-    .gallery-back { display: inline-block; margin-bottom: 24px; color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; }
-    .gallery-back:hover { color: var(--text); }
     .gallery-page .empty-state { margin-top: 32px; }
   </style>
 </head>
 <body x-data="galleryPage()" x-init="init()" @keydown.window="handleKeydown($event)" x-cloak class="gallery-page">
 
+  <!-- Navigation -->
+  <header :class="{ scrolled: scrolled }">
+    <a href="index.html" class="logo">Photobase</a>
+    <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav :class="{ open: menuOpen }">
+      <a href="index.html">Home</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#testimonials">Testimonials</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="manage/" class="nav-admin">Admin</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9790;</button>
+    </nav>
+  </header>
+
+  <!-- Mobile menu backdrop -->
+  <div class="menu-backdrop" x-show="menuOpen" @click="menuOpen = false" x-cloak></div>
+
   <section>
     <div class="container">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:8px">
-        <a href="index.html" class="gallery-back" style="margin-bottom:0">&larr; Back to Home</a>
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">&#9790;</button>
-      </div>
       <h2 class="section-title">Full Gallery</h2>
       <p class="section-subtitle">Browse all my work</p>
 
@@ -86,6 +101,8 @@
         filter: 'All',
         lightboxOpen: false,
         currentIndex: 0,
+        scrolled: false,
+        menuOpen: false,
 
         get filteredPhotos() {
           if (this.filter === 'All') return this.photos;
@@ -108,6 +125,15 @@
             console.error('Failed to load gallery:', e);
             this.loadError = true;
           }
+          this.$nextTick(function() {
+            this.trackScroll();
+          }.bind(this));
+        },
+
+        trackScroll() {
+          window.addEventListener('scroll', function() {
+            this.scrolled = window.scrollY > 60;
+          }.bind(this), { passive: true });
         },
 
         openLightbox(photo) {

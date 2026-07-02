@@ -1,19 +1,19 @@
 {
   "photos": [
     {
-      "id": "mountain-serenity",
-      "title": "Mountain Serenity",
-      "image": "https://picsum.photos/id/1015/800/600",
-      "category": "Landscape",
-      "description": "A peaceful mountain landscape captured during golden hour.",
-      "order": 1
-    },
-    {
       "id": "urban-pulse",
       "title": "Urban Pulse",
       "image": "https://picsum.photos/id/1019/800/600",
       "category": "Street",
       "description": "The energy of city life in motion.",
+      "order": 1
+    },
+    {
+      "id": "mountain-serenity",
+      "title": "Mountain Serenity",
+      "image": "https://picsum.photos/id/1015/800/600",
+      "category": "Landscape",
+      "description": "A peaceful mountain landscape captured during golden hour.",
       "order": 2
     },
     {

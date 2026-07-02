@@ -8,7 +8,7 @@ A full photographer portfolio website with an admin panel to manage photos from 
 
 ## Quick Start (1-Click Deploy)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fanomalyco%2Fphotobase&env=GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAT&project-name=photobase&repository-name=photobase)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHardik-7892%2Fphotobase&env=GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAT&project-name=photobase&repository-name=photobase)
 
 Click the button above to:
 
@@ -84,24 +84,24 @@ Edit **`settings.json`** to personalize your site:
 
 ```
 photobase/
-??? index.html        Portfolio page (all sections, Alpine.js)
-??? style.css         Global styles
-??? settings.json     Customizable portfolio content
-??? gallery.json      Photo data (edit via /manage/)
-??? manage/
-?   ??? index.html    Admin page
-?   ??? app.js        Admin logic
-??? api/
-?   ??? gallery.js    API route: load/save gallery.json
-?   ??? upload.js     API route: upload images
-?   ??? settings.js   API route: load settings.json
-??? lib/
-?   ??? github.js     Shared GitHub API client
-?   ??? validation.js Server-side file validation
-??? assets/
-    ??? images/
-        ??? samples/  Sample/demo images (replace with yours)
-        ??? ...
+|-- index.html        Portfolio page (all sections, Alpine.js)
+|-- style.css         Global styles
+|-- settings.json     Customizable portfolio content
+|-- gallery.json      Photo data (edit via /manage/)
+|-- manage/
+|   |-- index.html    Admin page
+|   |-- app.js        Admin logic
+|-- api/
+|   |-- gallery.js    API route: load/save gallery.json
+|   |-- upload.js     API route: upload images
+|   |-- settings.js   API route: load settings.json
+|-- lib/
+|   |-- github.js     Shared GitHub API client
+|   |-- validation.js Server-side file validation
+|-- assets/
+    |-- images/
+        |-- samples/  Sample/demo images (replace with yours)
+        |-- ...
 ```
 
 ## Customization

@@ -17,7 +17,7 @@
 <body x-data="galleryPage()" x-init="init()" @keydown.window="handleKeydown($event)" x-cloak class="gallery-page">
 
   <!-- Navigation -->
-  <header :class="{ scrolled: scrolled }">
+  <header class="scrolled">
     <a href="index.html" class="logo">Photobase</a>
     <button class="hamburger" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -101,7 +101,6 @@
         filter: 'All',
         lightboxOpen: false,
         currentIndex: 0,
-        scrolled: false,
         menuOpen: false,
 
         get filteredPhotos() {
@@ -125,15 +124,6 @@
             console.error('Failed to load gallery:', e);
             this.loadError = true;
           }
-          this.$nextTick(function() {
-            this.trackScroll();
-          }.bind(this));
-        },
-
-        trackScroll() {
-          window.addEventListener('scroll', function() {
-            this.scrolled = window.scrollY > 60;
-          }.bind(this), { passive: true });
         },
 
         openLightbox(photo) {

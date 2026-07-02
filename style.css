@@ -161,6 +161,16 @@ header nav a.active {
   color: white;
 }
 
+header nav a.nav-admin {
+  margin-left: 16px;
+  opacity: 0.5;
+  font-size: 0.72rem;
+}
+
+header nav a.nav-admin:hover {
+  opacity: 1;
+}
+
 .menu-backdrop {
   display: none;
 }

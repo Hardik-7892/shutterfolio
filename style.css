@@ -284,7 +284,15 @@ header.scrolled .hamburger span {
 /* ========== Gallery ========== */
 
 #gallery {
-  background: var(--surface);
+  background: var(--text);
+}
+
+#gallery .section-title {
+  color: white;
+}
+
+#gallery .section-subtitle {
+  color: rgba(255,255,255,0.5);
 }
 
 .filters {
@@ -297,10 +305,10 @@ header.scrolled .hamburger span {
 
 .filter-btn {
   padding: 6px 18px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 20px;
   background: transparent;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.6);
   cursor: pointer;
   font-size: 0.82rem;
   transition: all 0.2s;
@@ -308,14 +316,14 @@ header.scrolled .hamburger span {
 }
 
 .filter-btn:hover {
-  border-color: var(--text);
-  color: var(--text);
+  border-color: white;
+  color: white;
 }
 
 .filter-btn.active {
-  background: var(--text);
-  color: white;
-  border-color: var(--text);
+  background: white;
+  color: var(--text);
+  border-color: white;
 }
 
 .photo-grid {
@@ -671,13 +679,18 @@ footer {
 .empty-state {
   text-align: center;
   padding: 60px 20px;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.5);
 }
 
 .empty-state h2 {
   font-size: 1.3rem;
   margin-bottom: 8px;
-  color: var(--text);
+  color: white;
+}
+
+.empty-state a {
+  color: white;
+  text-decoration: underline;
 }
 
 /* ========== Responsive ========== */

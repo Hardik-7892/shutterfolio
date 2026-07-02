@@ -47,7 +47,8 @@
       "image": "assets/images/samples/city-lights.jpg",
       "category": "Street",
       "description": "Neon reflections on a rainy night.",
-      "order": 6
+      "order": 6,
+      "featured": false
     },
     {
       "id": "camera",

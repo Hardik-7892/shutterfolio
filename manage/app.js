@@ -84,6 +84,10 @@ async function loadGallery() {
   }
 }
 
+function absImageUrl(path) {
+  return path && !path.startsWith('/') && !path.startsWith('http') ? '/' + path : path || '';
+}
+
 function renderPhotos() {
   var grid = document.getElementById('photo-grid');
   grid.innerHTML = '';
@@ -103,7 +107,7 @@ function renderPhotos() {
 
     var title = escapeHtml(photo.title || 'Untitled');
     var cat = escapeHtml(photo.category || 'Uncategorized');
-    var imgSrc = photo.image || '';
+    var imgSrc = absImageUrl(photo.image);
 
     card.innerHTML =
       '<div class="drag-handle">&#x2630;</div>' +
@@ -204,7 +208,7 @@ function editPhoto(index) {
   pendingImage = null;
 
   if (photo.image) {
-    document.getElementById('preview-img').src = photo.image;
+    document.getElementById('preview-img').src = absImageUrl(photo.image);
     document.getElementById('preview-container').style.display = 'block';
   } else {
     document.getElementById('preview-container').style.display = 'none';

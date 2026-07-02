@@ -54,7 +54,8 @@
       "image": "assets/images/1783028587607-ycm7q5.png",
       "category": "test",
       "description": "wow - a camera!",
-      "order": 7
+      "order": 7,
+      "featured": true
     }
   ]
 }

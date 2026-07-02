@@ -23,7 +23,8 @@
       "image": "assets/images/1783027520707-eurfr0.jpg",
       "category": "Portrait",
       "description": "A candid portrait capturing a moment of reflection.",
-      "order": 3
+      "order": 3,
+      "featured": true
     },
     {
       "id": "oceans-rhythm",

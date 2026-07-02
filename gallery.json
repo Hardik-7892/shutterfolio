@@ -3,7 +3,7 @@
     {
       "id": "urban-pulse",
       "title": "Urban Pulse",
-      "image": "assets/images/urban-pulse.jpg",
+      "image": "assets/images/samples/urban-pulse.jpg",
       "category": "Street",
       "description": "The energy of city life in motion.",
       "order": 1
@@ -11,7 +11,7 @@
     {
       "id": "mountain-serenity",
       "title": "Mountain Serenity",
-      "image": "assets/images/mountain-serenity.jpg",
+      "image": "assets/images/samples/mountain-serenity.jpg",
       "category": "Landscape",
       "description": "A peaceful mountain landscape captured during golden hour.",
       "order": 2
@@ -19,7 +19,7 @@
     {
       "id": "quiet-contemplation",
       "title": "Quiet Contemplation",
-      "image": "assets/images/quiet-contemplation.jpg",
+      "image": "assets/images/samples/quiet-contemplation.jpg",
       "category": "Portrait",
       "description": "A candid portrait capturing a moment of reflection.",
       "order": 3
@@ -27,7 +27,7 @@
     {
       "id": "oceans-rhythm",
       "title": "Ocean's Rhythm",
-      "image": "assets/images/oceans-rhythm.jpg",
+      "image": "assets/images/samples/oceans-rhythm.jpg",
       "category": "Landscape",
       "description": "Waves crashing against the shore at sunset.",
       "order": 4
@@ -35,7 +35,7 @@
     {
       "id": "forest-path",
       "title": "Forest Path",
-      "image": "assets/images/forest-path.jpg",
+      "image": "assets/images/samples/forest-path.jpg",
       "category": "Nature",
       "description": "A winding path through an ancient forest.",
       "order": 5
@@ -43,7 +43,7 @@
     {
       "id": "city-lights",
       "title": "City Lights",
-      "image": "assets/images/city-lights.jpg",
+      "image": "assets/images/samples/city-lights.jpg",
       "category": "Street",
       "description": "Neon reflections on a rainy night.",
       "order": 6

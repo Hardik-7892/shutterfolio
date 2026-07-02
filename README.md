@@ -65,7 +65,14 @@ Edit **`settings.json`** to personalize your site:
 | `testimonials` | Client testimonials with name, text, avatar |
 | `instagram.username` | Instagram handle (links to your profile) |
 
-Placeholder image paths (like `assets/images/hero.jpg`, `assets/images/urban-pulse.jpg`) are used in settings.json and gallery.json. Replace them with your own images by placing files in `assets/images/`.
+> **Sample images** are provided in `assets/images/samples/` and referenced in `settings.json`, `gallery.json`, and `index.html`. These are placeholders — replace them with your own photos.
+
+**To add your own images:**
+1. Place your image files directly in `assets/images/` (for example, `assets/images/hero.jpg`)
+2. Update the path in `settings.json`, `gallery.json`, or `index.html` to point to your file (e.g., `"background": "assets/images/hero.jpg"`)
+3. The admin panel will also upload new photos to `assets/images/` automatically
+
+Do not edit or rely on files in `assets/images/samples/` — that folder is for demo purposes only and may be overwritten.
 
 ## File Structure
 
@@ -79,7 +86,10 @@ photobase/
 │   ├── index.html    Admin page
 │   └── app.js        Admin logic (GitHub API)
 └── assets/
-    └── images/       Uploaded photos
+    └── images/
+        ├── samples/     Sample/demo images (replace with yours)
+        ├── your-photo.jpg  ← your own images go here
+        └── ...
 ```
 
 ## Customization

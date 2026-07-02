@@ -60,12 +60,17 @@
         </template>
       </div>
 
-      <div class="empty-state" x-show="photos.length === 0">
+      <div class="empty-state" x-show="loadError">
+        <h2>Failed to load gallery</h2>
+        <p>Make sure your Vercel environment variables are configured correctly. Visit the <a href="manage/">admin panel</a> for details.</p>
+      </div>
+
+      <div class="empty-state" x-show="!loadError && photos.length === 0">
         <h2>No photos yet</h2>
         <p>Visit the <a href="manage/">admin panel</a> to add your first photo.</p>
       </div>
 
-      <div class="empty-state" x-show="photos.length > 0 && filteredPhotos.length === 0" style="padding: 32px 20px">
+      <div class="empty-state" x-show="!loadError && photos.length > 0 && filteredPhotos.length === 0" style="padding: 32px 20px">
         <p>No photos in this category.</p>
       </div>
     </div>
@@ -194,6 +199,7 @@
         },
         photos: [],
         categories: ['All'],
+        loadError: false,
         filter: 'All',
         lightboxOpen: false,
         currentIndex: 0,
@@ -225,6 +231,7 @@
             this.categories = ['All'].concat(Object.keys(catSet));
           } catch (e) {
             console.error('Failed to load data:', e);
+            this.loadError = true;
           }
 
           this.$nextTick(function() {

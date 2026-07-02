@@ -8,7 +8,7 @@ A full photographer portfolio website with an admin panel to manage photos from 
 
 ## Quick Start (1-Click Deploy)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHardik-7892%2Fphotobase&env=GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAT,ADMIN_USERNAME,ADMIN_PASSWORD&project-name=photobase&repository-name=photobase)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHardik-7892%2Fphotobase&env=GITHUB_PAT,ADMIN_USERNAME,ADMIN_PASSWORD&project-name=photobase&repository-name=photobase)
 
 Click the button above to:
 
@@ -20,18 +20,25 @@ After deployment, your site is live at `https://photobase-xxx.vercel.app` and th
 
 ---
 
-## Setup: Generate a Fine-Grained GitHub Token
+## Setup: Generate a GitHub Token
 
 The token is stored securely in Vercel environment variables &mdash; it **never touches your browser**.
 
+**Option A: Fine-grained token (recommended)**
+
 1. Go to **GitHub Settings > Developer settings > Personal access tokens > Fine-grained tokens**
 2. Click **Generate new token**
-3. Set **Repository access** &rarr; **Only select repositories** &rarr; choose your photobase repo
+3. Set **Repository access** &rarr; **Only select repositories** &rarr; choose your repo
 4. Under **Permissions &rarr; Contents** &rarr; set **Access: Read and write**
-5. Click **Generate token**
-6. **Copy the token** &mdash; it starts with `github_pat_...`
+5. Click **Generate token** and copy it (starts with `github_pat_...`)
 
-> Or use a classic token with `repo` scope if you prefer, but fine-grained is recommended for security.
+> If you rename your repo later, update the token's repository access or use a classic token instead.
+
+**Option B: Classic token**
+
+1. Go to **GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)**
+2. Click **Generate new token (classic)**, check the **`repo`** scope
+3. Click **Generate token** and copy it
 
 ## Environment Variables
 
@@ -39,12 +46,11 @@ When Vercel prompts you, set these:
 
 | Variable | Value |
 |---|---|
-| `GITHUB_OWNER` | your GitHub username |
-| `GITHUB_REPO` | `photobase` (or your repo name) |
-| `GITHUB_BRANCH` | `main` (or your branch name) |
-| `GITHUB_PAT` | the fine-grained token |
-| `ADMIN_USERNAME` | username to access the admin panel |
-| `ADMIN_PASSWORD` | password to access the admin panel |
+| `GITHUB_PAT` | your GitHub token from above |
+| `ADMIN_USERNAME` | username for the admin panel |
+| `ADMIN_PASSWORD` | password for the admin panel |
+
+> **Repo info is auto-detected.** Vercel injects `VERCEL_GIT_REPO_OWNER`, `VERCEL_GIT_REPO_SLUG`, and `VERCEL_GIT_COMMIT_REF` automatically from your Git connection. You only need to set `GITHUB_PAT` and your admin credentials.
 
 You can also change them later in **Vercel Dashboard &rarr; Project &rarr; Settings &rarr; Environment Variables**.
 

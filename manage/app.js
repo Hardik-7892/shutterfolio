@@ -458,5 +458,5 @@ function escapeHtml(str) {
 }
 
 function adminLogout() {
-  window.location.href = 'https://log:out@' + window.location.host + '/manage/';
+  window.location.href = 'https://log:out@' + window.location.host + '/';
 }

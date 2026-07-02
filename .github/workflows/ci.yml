@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON files
+        run: |
+          for f in settings.json gallery.json; do
+            jq empty "$f" || { echo "Invalid JSON: $f"; exit 1; }
+          done
+      - name: Check for mixed line endings
+        run: |
+          ! grep -rl $'\r' --include='*.html' --include='*.css' --include='*.js' . || {
+            echo "Files with CRLF line endings found. Use LF.";
+            exit 1;
+          }
+      - name: Validate HTML
+        run: |
+          for f in index.html manage/index.html; do
+            if ! tidy -eq -accessibility 2>/dev/null < "$f"; then
+              echo "HTML validation warnings in $f"
+            fi
+          done || true

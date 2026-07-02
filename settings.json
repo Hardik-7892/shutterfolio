@@ -9,7 +9,7 @@
     "bio": "I'm a professional photographer based in San Francisco. With over a decade of experience, I specialize in wedding, portrait, and event photography. My approach is candid, creative, and always focused on telling your unique story through my lens."
   },
   "hero": {
-    "background": "https://picsum.photos/id/1043/1600/900"
+    "background": "assets/images/hero.jpg"
   },
   "social": {
     "instagram": "https://instagram.com/",
@@ -41,17 +41,17 @@
     {
       "name": "Sarah & Mike",
       "text": "Jane captured our wedding perfectly. Every photo tells a story. We couldn't be happier with the results.",
-      "image": "https://picsum.photos/id/64/80/80"
+      "image": "assets/images/testimonial-1.jpg"
     },
     {
       "name": "David Chen",
       "text": "Professional, creative, and incredibly easy to work with. The portraits exceeded my expectations.",
-      "image": "https://picsum.photos/id/91/80/80"
+      "image": "assets/images/testimonial-2.jpg"
     },
     {
       "name": "Emily Rodriguez",
       "text": "The event photos were stunning. Jane has an incredible eye for detail and captured moments we didn't even notice.",
-      "image": "https://picsum.photos/id/177/80/80"
+      "image": "assets/images/testimonial-3.jpg"
     }
   ],
   "instagram": {

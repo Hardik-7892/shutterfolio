@@ -65,7 +65,7 @@ Edit **`settings.json`** to personalize your site:
 | `testimonials` | Client testimonials with name, text, avatar |
 | `instagram.username` | Instagram handle (links to your profile) |
 
-**Sample placeholder images** (from picsum.photos) are used in settings.json and gallery.json. Replace them with your own paths like `assets/images/photo.jpg`.
+Placeholder image paths (like `assets/images/hero.jpg`, `assets/images/urban-pulse.jpg`) are used in settings.json and gallery.json. Replace them with your own images by placing files in `assets/images/`.
 
 ## File Structure
 

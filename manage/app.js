@@ -515,7 +515,7 @@ async function saveChanges() {
       return cp;
     });
 
-    var result = await putFile('gallery.json', { photos: cleanPhotos }, fileSha, 'Update gallery');
+    var result = await putFile('gallery.json', { photos: cleanPhotos }, fileSha, 'Update gallery [skip ci]');
     fileSha = result.content.sha;
     setDirty(false);
     showStatus('Saved successfully!', 'success');

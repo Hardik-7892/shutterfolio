@@ -527,7 +527,7 @@ function renderSettings() {
       items += arrayItem('Service #' + (i + 1), [
         field('sett-svc-title-' + i, 'Title', item.title || '', 'title'),
         textarea('sett-svc-desc-' + i, 'Description', item.description || '', 'description'),
-        iconToggleHtml('svc-' + i, item)
+        iconToggleHtml('svc-' + i, item, '56\u00d756')
       ], 'removeServiceItem(this)');
     });
     return items + '<button class="array-add-btn" onclick="addServiceItem()">+ Add Service</button>';
@@ -539,7 +539,7 @@ function renderSettings() {
       items += arrayItem(item.name || 'Testimonial #' + (i + 1), [
         field('sett-test-name-' + i, 'Name', item.name || '', 'name'),
         textarea('sett-test-text-' + i, 'Text', item.text || '', 'text'),
-        iconToggleHtml('test-' + i, item)
+        iconToggleHtml('test-' + i, item, '64\u00d764')
       ], 'removeTestimonialItem(this)');
     });
     return items + '<button class="array-add-btn" onclick="addTestimonialItem()">+ Add Testimonial</button>';
@@ -600,7 +600,8 @@ function imageField(id, label, currentSrc, dataField) {
   '</div>';
 }
 
-function iconToggleHtml(prefix, item) {
+function iconToggleHtml(prefix, item, sizeHint) {
+  sizeHint = sizeHint || '';
   var iconType = item.iconType || 'text';
   var iconVal = item.icon || '';
   var colorVal = item.iconColor || '#e74c3c';
@@ -621,12 +622,12 @@ function iconToggleHtml(prefix, item) {
   '</div>' +
   '<div id="' + prefix + '-text-fields" class="icon-text-fields" ' + textVisible + '>' +
     '<div class="settings-field" style="display:flex;gap:8px;align-items:end">' +
-      '<div style="flex:1"><label>Character</label><input id="' + prefix + '-icon" data-field="icon" value="' + escapeAttr(iconVal) + '" onchange="scheduleSettingsSave()" placeholder="W" /></div>' +
+      '<div style="flex:1"><label>Character (one alphabet)</label><input id="' + prefix + '-icon" data-field="icon" value="' + escapeAttr(iconVal) + '" onchange="scheduleSettingsSave()" placeholder="e.g. W" /></div>' +
       '<div><label>Color</label><input type="color" id="' + prefix + '-iconColor" data-field="iconColor" value="' + escapeAttr(colorVal) + '" onchange="scheduleSettingsSave()" style="width:60px;height:38px;padding:2px" /></div>' +
     '</div>' +
   '</div>' +
   '<div id="' + prefix + '-image-field" class="icon-image-field" ' + imgVisible + '>' +
-    imageField(prefix + '-iconImage', 'Icon Image', imgVal, 'iconImage') +
+    imageField(prefix + '-iconImage', 'Icon Image' + (sizeHint ? ' (' + sizeHint + ' px)' : ''), imgVal, 'iconImage') +
   '</div>';
 }
 

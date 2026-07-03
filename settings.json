@@ -30,6 +30,11 @@
       "name": "Facebook",
       "url": "https://facebook.com/",
       "label": "FB"
+    },
+    {
+      "name": "github",
+      "url": "",
+      "label": ""
     }
   ],
   "contact": {

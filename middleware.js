@@ -29,7 +29,7 @@ export default async function middleware(request) {
         var username = formData.get('username');
         var password = formData.get('password');
 
-        var session = auth.generateSessionToken(username, password);
+        var session = await auth.generateSessionToken(username, password);
         if (session) {
           return new Response(null, {
             status: 302,
@@ -58,7 +58,7 @@ export default async function middleware(request) {
   }
 
   var cookie = request.headers.get('cookie') || '';
-  var user = auth.isAuthenticatedFromCookie(cookie);
+  var user = await auth.isAuthenticatedFromCookie(cookie);
   if (user) {
     return;
   }

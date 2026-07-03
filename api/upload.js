@@ -18,7 +18,7 @@ module.exports = async function (req, res) {
   }
 
   var cookie = req.headers.cookie || '';
-  var user = auth.isAuthenticatedFromCookie(cookie);
+  var user = await auth.isAuthenticatedFromCookie(cookie);
 
   if (!user) {
     return res.status(401).json({ error: 'Authentication required.' });

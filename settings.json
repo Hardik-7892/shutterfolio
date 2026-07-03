@@ -9,15 +9,22 @@
     "bio": "I'm a professional photographer based in San Francisco. With over a decade of experience, I specialize in wedding, portrait, and event photography. My approach is candid, creative, and always focused on telling your unique story through my lens."
   },
   "hero": {
-    "background": "assets/images/samples/hero.jpg"
+    "background": "assets/images/samples/hero.jpg",
+    "heading": "",
+    "subheading": "",
+    "buttonText": "View Gallery",
+    "buttonLink": "#gallery"
   },
-  "social": {
-    "instagram": "https://instagram.com/",
-    "twitter": "https://twitter.com/",
-    "facebook": "https://facebook.com/"
-  },
+  "social": [
+    { "name": "Instagram", "url": "https://instagram.com/", "label": "IG" },
+    { "name": "Twitter", "url": "https://twitter.com/", "label": "X" },
+    { "name": "Facebook", "url": "https://facebook.com/", "label": "FB" }
+  ],
   "contact": {
     "email": "hello@janedoe.com"
+  },
+  "about": {
+    "image": "assets/images/samples/about.jpg"
   },
   "services": [
     {

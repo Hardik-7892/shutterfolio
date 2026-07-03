@@ -36,9 +36,9 @@
     <div class="hero-bg" :style="'background-image: url(' + (settings.hero?.background || '') + ')'"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 x-text="settings.photographer?.name || 'Photographer'"></h1>
-      <p x-text="settings.photographer?.tagline || ''"></p>
-      <a href="#gallery" class="btn" @click.prevent="scrollTo('gallery')">View Gallery</a>
+      <h1 x-text="settings.hero?.heading || settings.photographer?.name || 'Photographer'"></h1>
+      <p x-text="settings.hero?.subheading || settings.photographer?.tagline || ''"></p>
+      <a :href="settings.hero?.buttonLink || '#gallery'" class="btn" x-text="settings.hero?.buttonText || 'View Gallery'"></a>
     </div>
   </section>
 
@@ -122,13 +122,13 @@
       <h2 class="section-title">About</h2>
       <p class="section-subtitle">Get to know me</p>
       <div class="about-grid">
-        <img src="assets/images/samples/about.jpg" :alt="settings.photographer?.name" loading="lazy" />
+        <img :src="settings.about?.image || 'assets/images/samples/about.jpg'" :alt="settings.photographer?.name" loading="lazy" />
         <div>
           <p class="bio" x-text="settings.photographer?.bio || ''"></p>
           <div class="social-links">
-            <a :href="settings.social?.instagram || '#'" target="_blank" rel="noopener">Instagram</a>
-            <a :href="settings.social?.twitter || '#'" target="_blank" rel="noopener">Twitter</a>
-            <a :href="settings.social?.facebook || '#'" target="_blank" rel="noopener">Facebook</a>
+            <template x-for="s in settings.social" :key="s.name">
+              <a :href="s.url" target="_blank" rel="noopener" x-text="s.name"></a>
+            </template>
           </div>
         </div>
       </div>
@@ -142,9 +142,9 @@
       <p class="section-subtitle">Have a project in mind? Let's talk.</p>
       <a :href="'mailto:' + (settings.contact?.email || '')" class="contact-email" x-text="settings.contact?.email || ''"></a>
       <div class="contact-social">
-        <a :href="settings.social?.instagram || '#'" target="_blank" rel="noopener" title="Instagram">IG</a>
-        <a :href="settings.social?.twitter || '#'" target="_blank" rel="noopener" title="Twitter">X</a>
-        <a :href="settings.social?.facebook || '#'" target="_blank" rel="noopener" title="Facebook">FB</a>
+        <template x-for="s in settings.social" :key="s.name">
+          <a :href="s.url" target="_blank" rel="noopener" :title="s.name" x-text="s.label || s.name.slice(0,2).toUpperCase()"></a>
+        </template>
       </div>
     </div>
   </section>
@@ -197,8 +197,9 @@
           site: {},
           photographer: {},
           hero: {},
-          social: {},
+          social: [],
           contact: {},
+          about: {},
           services: [],
           testimonials: [],
           instagram: {}

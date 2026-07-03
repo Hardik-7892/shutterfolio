@@ -446,3 +446,342 @@ function escapeHtml(str) {
 function adminLogout() {
   window.location.href = '/manage/logout';
 }
+
+// ========== Settings Editor ==========
+
+var settingsData = {};
+var settingsSaveTimer = null;
+
+function switchTab(tab) {
+  document.getElementById('tab-gallery').classList.toggle('active', tab === 'gallery');
+  document.getElementById('tab-settings').classList.toggle('active', tab === 'settings');
+  document.getElementById('photo-grid').style.display = tab === 'gallery' ? '' : 'none';
+  document.getElementById('add-photo-btn').style.display = tab === 'gallery' ? '' : 'none';
+  document.getElementById('settings-form').style.display = tab === 'settings' ? '' : 'none';
+  document.getElementById('error-container').style.display = 'none';
+  if (tab === 'settings' && !document.getElementById('settings-form').querySelector('.settings-section')) {
+    loadSettings();
+  }
+}
+
+async function loadSettings() {
+  document.getElementById('settings-form').innerHTML = '<div class="empty-state" style="margin-top:0"><h2>Loading settings...</h2></div>';
+  try {
+    var res = await fetch('/api/settings');
+    if (!res.ok) throw new Error('Failed to load settings');
+    settingsData = await res.json();
+    renderSettings();
+  } catch (err) {
+    document.getElementById('settings-form').innerHTML = '<div class="empty-state" style="margin-top:0"><h2>Failed to load settings</h2><p style="color:var(--empty-text);font-size:0.85rem;margin-top:8px">' + sanitizeError(err) + '</p><button class="btn btn-primary" onclick="loadSettings()" style="margin-top:16px">Retry</button></div>';
+  }
+}
+
+function renderSettings() {
+  var s = settingsData;
+  var html = '';
+
+  html += sectionFieldset('Site', function() {
+    return field('sett-site-title', 'Title', s.site?.title || '') +
+           field('sett-site-desc', 'Description', s.site?.description || '');
+  });
+
+  html += sectionFieldset('Photographer', function() {
+    return field('sett-photo-name', 'Name', s.photographer?.name || '') +
+           field('sett-photo-tagline', 'Tagline', s.photographer?.tagline || '') +
+           textarea('sett-photo-bio', 'Bio', s.photographer?.bio || '');
+  });
+
+  var heroImg = s.hero?.background || '';
+  html += sectionFieldset('Hero', function() {
+    return imageField('sett-hero-bg', 'Background Image', heroImg) +
+           field('sett-hero-heading', 'Heading (leave blank to use photographer name)', s.hero?.heading || '') +
+           field('sett-hero-subheading', 'Subheading (leave blank to use tagline)', s.hero?.subheading || '') +
+           field('sett-hero-btn-text', 'Button Text', s.hero?.buttonText || 'View Gallery') +
+           field('sett-hero-btn-link', 'Button Link', s.hero?.buttonLink || '#gallery');
+  });
+
+  html += sectionFieldset('Social Links', function() {
+    var items = '';
+    (s.social || []).forEach(function(item, i) {
+      items += arrayItem('Social #' + (i + 1), [
+        field('sett-social-name-' + i, 'Name', item.name || '', 'name'),
+        field('sett-social-url-' + i, 'URL', item.url || '', 'url'),
+        field('sett-social-label-' + i, 'Label (short text for contact icons)', item.label || '', 'label')
+      ], 'removeSocialItem(this)');
+    });
+    return items + '<button class="array-add-btn" onclick="addSocialItem()">+ Add Link</button>';
+  });
+
+  html += sectionFieldset('Contact', function() {
+    return field('sett-contact-email', 'Email', s.contact?.email || '');
+  });
+
+  var aboutImg = s.about?.image || '';
+  html += sectionFieldset('About', function() {
+    return imageField('sett-about-img', 'Image', aboutImg);
+  });
+
+  html += sectionFieldset('Services', function() {
+    var items = '';
+    (s.services || []).forEach(function(item, i) {
+      items += arrayItem('Service #' + (i + 1), [
+        field('sett-svc-title-' + i, 'Title', item.title || '', 'title'),
+        textarea('sett-svc-desc-' + i, 'Description', item.description || '', 'description')
+      ], 'removeServiceItem(this)');
+    });
+    return items + '<button class="array-add-btn" onclick="addServiceItem()">+ Add Service</button>';
+  });
+
+  html += sectionFieldset('Testimonials', function() {
+    var items = '';
+    (s.testimonials || []).forEach(function(item, i) {
+      var img = item.image || '';
+      items += arrayItem(item.name || 'Testimonial #' + (i + 1), [
+        field('sett-test-name-' + i, 'Name', item.name || '', 'name'),
+        textarea('sett-test-text-' + i, 'Text', item.text || '', 'text'),
+        imageField('sett-test-img-' + i, 'Image', img, 'image')
+      ], 'removeTestimonialItem(this)');
+    });
+    return items + '<button class="array-add-btn" onclick="addTestimonialItem()">+ Add Testimonial</button>';
+  });
+
+  html += sectionFieldset('Instagram', function() {
+    return field('sett-insta-username', 'Username', s.instagram?.username || '');
+  });
+
+  document.getElementById('settings-form').innerHTML = html;
+}
+
+function sectionFieldset(name, contentFn) {
+  var id = 'sett-section-' + name.replace(/\s+/g, '-');
+  return '<div class="settings-section" id="' + id + '">' +
+    '<div class="settings-section-header" onclick="toggleSection(this)">' +
+      escapeHtml(name) +
+      '<span class="arrow">&#9660;</span>' +
+    '</div>' +
+    '<div class="settings-section-body">' +
+      contentFn() +
+    '</div>' +
+  '</div>';
+}
+
+function toggleSection(header) {
+  header.classList.toggle('collapsed');
+  var body = header.nextElementSibling;
+  if (body) body.classList.toggle('collapsed');
+}
+
+function field(id, label, value, dataField) {
+  dataField = dataField || id;
+  return '<div class="settings-field">' +
+    '<label>' + escapeHtml(label) + '</label>' +
+    '<input id="' + id + '" data-field="' + dataField + '" value="' + escapeAttr(value) + '" onchange="scheduleSettingsSave()" />' +
+  '</div>';
+}
+
+function textarea(id, label, value, dataField) {
+  dataField = dataField || id;
+  return '<div class="settings-field">' +
+    '<label>' + escapeHtml(label) + '</label>' +
+    '<textarea id="' + id + '" data-field="' + dataField + '" onchange="scheduleSettingsSave()">' + escapeAttr(value) + '</textarea>' +
+  '</div>';
+}
+
+function imageField(id, label, currentSrc, dataField) {
+  var src = currentSrc ? absImageUrl(currentSrc) : '';
+  return '<div class="settings-field">' +
+    '<label>' + escapeHtml(label) + '</label>' +
+    '<div class="upload-zone-sm" onclick="triggerSettingsUpload(\'' + id + '\')">' +
+      (src ? 'Click to change image' : 'Click to upload image') +
+    '</div>' +
+    '<input type="file" accept="image/*" style="display:none" id="' + id + '-file" onchange="handleSettingsImageUpload(event, \'' + id + '\')" />' +
+    '<input type="hidden" id="' + id + '" data-field="' + (dataField || id) + '" value="' + escapeAttr(currentSrc) + '" />' +
+    (src ? '<div class="preview-sm"><img src="' + src + '" /></div>' : '') +
+  '</div>';
+}
+
+function arrayItem(label, fieldsHtml, removeHandler) {
+  return '<div class="array-item">' +
+    '<div class="array-item-header">' +
+      '<span class="item-label">' + escapeHtml(label) + '</span>' +
+      '<button class="array-item-remove" onclick="' + removeHandler + '">Remove</button>' +
+    '</div>' +
+    fieldsHtml +
+  '</div>';
+}
+
+function escapeAttr(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function triggerSettingsUpload(id) {
+  document.getElementById(id + '-file').click();
+}
+
+async function handleSettingsImageUpload(event, id) {
+  var file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    await validateFile(file);
+    var formData = new FormData();
+    formData.append('file', file);
+    var res = await fetch('/api/upload', { method: 'POST', body: formData });
+    if (!res.ok) {
+      var err = await res.json().catch(function() { return {}; });
+      throw new Error(err.error || 'Upload failed');
+    }
+    var data = await res.json();
+    document.getElementById(id).value = data.path;
+
+    var preview = document.getElementById(id).closest('.settings-field').querySelector('.preview-sm');
+    if (preview) {
+      preview.querySelector('img').src = absImageUrl(data.path);
+    } else {
+      var container = document.getElementById(id).closest('.settings-field');
+      var p = document.createElement('div');
+      p.className = 'preview-sm';
+      p.innerHTML = '<img src="' + absImageUrl(data.path) + '" />';
+      container.appendChild(p);
+    }
+
+    scheduleSettingsSave();
+  } catch (err) {
+    alert(sanitizeError(err));
+  }
+
+  event.target.value = '';
+}
+
+function scheduleSettingsSave() {
+  if (settingsSaveTimer) clearTimeout(settingsSaveTimer);
+  showStatus('Unsaved changes...', 'loading');
+  settingsSaveTimer = setTimeout(doSaveSettings, 500);
+}
+
+async function doSaveSettings() {
+  showStatus('Saving...', 'loading');
+
+  try {
+    var data = collectAllSettings();
+    var res = await fetch('/api/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) {
+      var err = await res.json().catch(function() { return {}; });
+      throw new Error(err.error || 'Save failed');
+    }
+
+    showStatus('Saved', 'success');
+    setTimeout(function() { showStatus('', ''); }, 2000);
+  } catch (err) {
+    showStatus(sanitizeError(err), 'error');
+  }
+}
+
+function val(id) {
+  var el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
+function addSocialItem() {
+  var data = collectAllSettings();
+  data.social = data.social || [];
+  data.social.push({ name: '', url: '', label: '' });
+  settingsData = data;
+  renderSettings();
+  scheduleSettingsSave();
+}
+
+function removeSocialItem(btn) {
+  modifyArray(btn, 'social');
+}
+
+function addServiceItem() {
+  var data = collectAllSettings();
+  data.services = data.services || [];
+  data.services.push({ title: '', description: '' });
+  settingsData = data;
+  renderSettings();
+  scheduleSettingsSave();
+}
+
+function removeServiceItem(btn) {
+  modifyArray(btn, 'services');
+}
+
+function addTestimonialItem() {
+  var data = collectAllSettings();
+  data.testimonials = data.testimonials || [];
+  data.testimonials.push({ name: '', text: '', image: '' });
+  settingsData = data;
+  renderSettings();
+  scheduleSettingsSave();
+}
+
+function removeTestimonialItem(btn) {
+  modifyArray(btn, 'testimonials');
+}
+
+function modifyArray(btn, key) {
+  var data = collectAllSettings();
+  var arr = data[key];
+  if (!arr) return;
+  var item = btn.closest('.array-item');
+  var container = btn.closest('.settings-section-body');
+  var items = container.querySelectorAll('.array-item');
+  var idx = Array.prototype.indexOf.call(items, item);
+  if (idx === -1) return;
+  arr.splice(idx, 1);
+  data[key] = arr;
+  settingsData = data;
+  renderSettings();
+  scheduleSettingsSave();
+}
+
+function collectAllSettings() {
+  return {
+    site: {
+      title: val('sett-site-title'),
+      description: val('sett-site-desc')
+    },
+    photographer: {
+      name: val('sett-photo-name'),
+      tagline: val('sett-photo-tagline'),
+      bio: val('sett-photo-bio')
+    },
+    hero: {
+      background: val('sett-hero-bg'),
+      heading: val('sett-hero-heading'),
+      subheading: val('sett-hero-subheading'),
+      buttonText: val('sett-hero-btn-text'),
+      buttonLink: val('sett-hero-btn-link')
+    },
+    social: collectSectionArray('sett-section-Social-Links', ['name', 'url', 'label']),
+    contact: { email: val('sett-contact-email') },
+    about: { image: val('sett-about-img') },
+    services: collectSectionArray('sett-section-Services', ['title', 'description']),
+    testimonials: collectSectionArray('sett-section-Testimonials', ['name', 'text', 'image']),
+    instagram: { username: val('sett-insta-username') }
+  };
+}
+
+function collectSectionArray(sectionId, fields) {
+  var section = document.getElementById(sectionId);
+  if (!section) return [];
+  var items = section.querySelectorAll('.array-item');
+  var result = [];
+  items.forEach(function(item) {
+    var entry = {};
+    fields.forEach(function(f) {
+      var input = item.querySelector('[data-field="' + f + '"]');
+      if (input) entry[f] = input.value;
+    });
+    if (entry[fields[0]]) result.push(entry);
+  });
+  return result;
+}

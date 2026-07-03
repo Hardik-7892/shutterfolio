@@ -16,9 +16,21 @@
     "buttonLink": "#gallery"
   },
   "social": [
-    { "name": "Instagram", "url": "https://instagram.com/", "label": "IG" },
-    { "name": "Twitter", "url": "https://twitter.com/", "label": "X" },
-    { "name": "Facebook", "url": "https://facebook.com/", "label": "FB" }
+    {
+      "name": "Instagram",
+      "url": "https://instagram.com/",
+      "label": "IG"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/",
+      "label": "X"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://facebook.com/",
+      "label": "FB"
+    }
   ],
   "contact": {
     "email": "hello@janedoe.com"
@@ -57,6 +69,14 @@
       "iconType": "text",
       "icon": "L",
       "iconColor": "#f39c12",
+      "iconImage": ""
+    },
+    {
+      "title": "Hardik Pandey",
+      "description": "i dont know... testing?",
+      "iconType": "text",
+      "icon": "H",
+      "iconColor": "#9b59b6",
       "iconImage": ""
     }
   ],

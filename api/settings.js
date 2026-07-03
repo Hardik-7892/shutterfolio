@@ -1,5 +1,19 @@
 var { getFile, putFile } = require('../lib/github');
-var { rateLimit } = require('../lib/rate-limit');
+var { rateLimit, getClientIp } = require('../lib/rate-limit');
+var auth = require('../lib/auth');
+
+function validateSettings(data) {
+  if (!data || typeof data !== 'object') return 'Invalid settings data';
+  if (data.photographer && typeof data.photographer.name === 'string' && data.photographer.name.length > 100) return 'Photographer name exceeds 100 characters';
+  if (data.photographer && typeof data.photographer.bio === 'string' && data.photographer.bio.length > 2000) return 'Bio exceeds 2000 characters';
+  if (data.contact && data.contact.email && typeof data.contact.email === 'string' && data.contact.email.length > 254) return 'Email exceeds 254 characters';
+  if (Array.isArray(data.services)) {
+    for (var i = 0; i < data.services.length; i++) {
+      if (data.services[i].title && data.services[i].title.length > 100) return 'Service title exceeds 100 characters';
+    }
+  }
+  return null;
+}
 
 module.exports = async function (req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,10 +24,13 @@ module.exports = async function (req, res) {
     return res.status(200).end();
   }
 
-  var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+  var ip = getClientIp(req);
   if (!rateLimit(ip)) {
     return res.status(429).json({ error: 'Too many requests. Please wait before trying again.' });
   }
+
+  var cookie = req.headers.cookie || '';
+  var user = auth.isAuthenticatedFromCookie(cookie);
 
   if (req.method === 'GET') {
     try {
@@ -25,10 +42,15 @@ module.exports = async function (req, res) {
   }
 
   if (req.method === 'POST') {
+    if (!user) {
+      return res.status(401).json({ error: 'Authentication required.' });
+    }
+
     try {
       var settings = req.body;
-      if (!settings || typeof settings !== 'object') {
-        return res.status(400).json({ error: 'Invalid settings data' });
+      var validationError = validateSettings(settings);
+      if (validationError) {
+        return res.status(400).json({ error: validationError });
       }
 
       var sha = null;

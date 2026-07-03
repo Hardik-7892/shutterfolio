@@ -22,7 +22,7 @@
       "label": "IG"
     },
     {
-      "name": "Twitter,",
+      "name": "Twitter",
       "url": "https://twitter.com/",
       "label": "X"
     },
@@ -30,11 +30,6 @@
       "name": "Facebook",
       "url": "https://facebook.com/",
       "label": "FB"
-    },
-    {
-      "name": "github",
-      "url": "https://github.com/",
-      "label": "GH"
     }
   ],
   "contact": {

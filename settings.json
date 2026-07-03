@@ -42,7 +42,7 @@
     {
       "title": "Wedding Photography",
       "description": "Capturing your special day from beginning to end. Every laugh, tear, and dance move documented beautifully.",
-      "iconType": "text",
+      "iconType": "image",
       "icon": "W",
       "iconColor": "#e74c3c",
       "iconImage": ""
@@ -84,28 +84,25 @@
     {
       "name": "Sarah & Mike",
       "text": "Jane captured our wedding perfectly. Every photo tells a story. We couldn't be happier with the results.",
-      "image": "assets/images/samples/testimonial-1.jpg",
       "iconType": "image",
       "icon": "",
-      "iconColor": "",
+      "iconColor": "#e74c3c",
       "iconImage": "assets/images/samples/testimonial-1.jpg"
     },
     {
       "name": "David Chen",
       "text": "Professional, creative, and incredibly easy to work with. The portraits exceeded my expectations.",
-      "image": "assets/images/samples/testimonial-2.jpg",
       "iconType": "image",
       "icon": "",
-      "iconColor": "",
+      "iconColor": "#e74c3c",
       "iconImage": "assets/images/samples/testimonial-2.jpg"
     },
     {
       "name": "Emily Rodriguez",
       "text": "The event photos were stunning. Jane has an incredible eye for detail and captured moments we didn't even notice.",
-      "image": "assets/images/samples/testimonial-3.jpg",
       "iconType": "image",
       "icon": "",
-      "iconColor": "",
+      "iconColor": "#e74c3c",
       "iconImage": "assets/images/samples/testimonial-3.jpg"
     }
   ],

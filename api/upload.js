@@ -17,15 +17,13 @@ module.exports = async function (req, res) {
     return res.status(429).json({ error: 'Too many requests. Please wait before trying again.' });
   }
 
-  var cookie = req.headers.cookie || '';
-  var user = await auth.isAuthenticatedFromCookie(cookie);
-
-  if (!user) {
-    return res.status(401).json({ error: 'Authentication required.' });
-  }
-
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  var cookie = req.headers.cookie || '';
+  if (!(await auth.isAuthenticatedFromCookie(cookie))) {
+    return res.status(401).json({ error: 'Authentication required.' });
   }
 
   try {

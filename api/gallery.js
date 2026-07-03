@@ -31,9 +31,6 @@ module.exports = async function (req, res) {
     return res.status(429).json({ error: 'Too many requests. Please wait before trying again.' });
   }
 
-  var cookie = req.headers.cookie || '';
-  var user = await auth.isAuthenticatedFromCookie(cookie);
-
   if (req.method === 'GET') {
     try {
       var result = await getFile('gallery.json');
@@ -47,7 +44,8 @@ module.exports = async function (req, res) {
   }
 
   if (req.method === 'POST') {
-    if (!user) {
+    var cookie = req.headers.cookie || '';
+    if (!(await auth.isAuthenticatedFromCookie(cookie))) {
       return res.status(401).json({ error: 'Authentication required.' });
     }
 

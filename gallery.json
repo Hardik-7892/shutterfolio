@@ -1,20 +1,20 @@
 {
   "photos": [
     {
-      "id": "urban-pulse",
-      "title": "Urban Pulse",
-      "image": "assets/images/samples/urban-pulse.jpg",
-      "category": "Street",
-      "description": "The energy of city life in motion.",
-      "order": 1,
-      "featured": true
-    },
-    {
       "id": "mountain-serenity",
       "title": "Mountain Serenity",
       "image": "assets/images/samples/mountain-serenity.jpg",
       "category": "Landscape",
       "description": "A peaceful mountain landscape captured during golden hour.",
+      "order": 1,
+      "featured": true
+    },
+    {
+      "id": "urban-pulse",
+      "title": "Urban Pulse",
+      "image": "assets/images/samples/urban-pulse.jpg",
+      "category": "Street",
+      "description": "The energy of city life in motion.",
       "order": 2,
       "featured": true
     },

@@ -1,11 +1,9 @@
+var auth = require('./lib/auth');
+var { rateLimit, getClientIp } = require('./lib/rate-limit');
+
 export const config = {
   matcher: '/manage/:path*'
 };
-
-function getCookieValue(cookieString, name) {
-  var match = cookieString.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
-  return match ? match[1] : null;
-}
 
 export default async function middleware(request) {
   var url = new URL(request.url);
@@ -21,18 +19,23 @@ export default async function middleware(request) {
     }
 
     if (request.method === 'POST') {
+      var ip = getClientIp(request) || 'unknown';
+      if (!rateLimit(ip)) {
+        return new Response('Too many login attempts. Please wait before trying again.', { status: 429 });
+      }
+
       try {
         var formData = await request.formData();
         var username = formData.get('username');
         var password = formData.get('password');
 
-        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-          var session = btoa(username + ':' + password);
+        var session = auth.generateSessionToken(username, password);
+        if (session) {
           return new Response(null, {
             status: 302,
             headers: {
               'Location': '/manage/',
-              'Set-Cookie': 'shutterfolio_session=' + session + '; Path=/manage; HttpOnly; SameSite=Lax; Max-Age=86400'
+              'Set-Cookie': 'shutterfolio_session=' + session + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400'
             }
           });
         }
@@ -49,26 +52,15 @@ export default async function middleware(request) {
       status: 302,
       headers: {
         'Location': '/',
-        'Set-Cookie': 'shutterfolio_session=; Path=/manage; Max-Age=0'
+        'Set-Cookie': 'shutterfolio_session=; Path=/; Max-Age=0'
       }
     });
   }
 
   var cookie = request.headers.get('cookie') || '';
-  var session = getCookieValue(cookie, 'shutterfolio_session');
-
-  if (session) {
-    try {
-      var decoded = atob(session);
-      var colonIndex = decoded.indexOf(':');
-      if (colonIndex !== -1) {
-        var user = decoded.slice(0, colonIndex);
-        var pass = decoded.slice(colonIndex + 1);
-        if (user === process.env.ADMIN_USERNAME && pass === process.env.ADMIN_PASSWORD) {
-          return;
-        }
-      }
-    } catch (e) {}
+  var user = auth.isAuthenticatedFromCookie(cookie);
+  if (user) {
+    return;
   }
 
   return Response.redirect(new URL('/manage/login.html', request.url));

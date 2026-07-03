@@ -526,7 +526,8 @@ function renderSettings() {
     (s.services || []).forEach(function(item, i) {
       items += arrayItem('Service #' + (i + 1), [
         field('sett-svc-title-' + i, 'Title', item.title || '', 'title'),
-        textarea('sett-svc-desc-' + i, 'Description', item.description || '', 'description')
+        textarea('sett-svc-desc-' + i, 'Description', item.description || '', 'description'),
+        iconToggleHtml('svc-' + i, item)
       ], 'removeServiceItem(this)');
     });
     return items + '<button class="array-add-btn" onclick="addServiceItem()">+ Add Service</button>';
@@ -535,11 +536,10 @@ function renderSettings() {
   html += sectionFieldset('Testimonials', function() {
     var items = '';
     (s.testimonials || []).forEach(function(item, i) {
-      var img = item.image || '';
       items += arrayItem(item.name || 'Testimonial #' + (i + 1), [
         field('sett-test-name-' + i, 'Name', item.name || '', 'name'),
         textarea('sett-test-text-' + i, 'Text', item.text || '', 'text'),
-        imageField('sett-test-img-' + i, 'Image', img, 'image')
+        iconToggleHtml('test-' + i, item)
       ], 'removeTestimonialItem(this)');
     });
     return items + '<button class="array-add-btn" onclick="addTestimonialItem()">+ Add Testimonial</button>';
@@ -598,6 +598,48 @@ function imageField(id, label, currentSrc, dataField) {
     '<input type="hidden" id="' + id + '" data-field="' + (dataField || id) + '" value="' + escapeAttr(currentSrc) + '" />' +
     (src ? '<div class="preview-sm"><img src="' + src + '" /></div>' : '') +
   '</div>';
+}
+
+function iconToggleHtml(prefix, item) {
+  var iconType = item.iconType || 'text';
+  var iconVal = item.icon || '';
+  var colorVal = item.iconColor || '#e74c3c';
+  var imgVal = item.iconImage || '';
+
+  var textActive = iconType === 'text' ? 'active' : '';
+  var imgActive = iconType === 'image' ? 'active' : '';
+  var textVisible = iconType === 'text' ? '' : 'style="display:none"';
+  var imgVisible = iconType === 'image' ? '' : 'style="display:none"';
+
+  return '<div class="settings-field">' +
+    '<label>Icon Type</label>' +
+    '<div class="toggle-group">' +
+      '<button type="button" class="toggle-btn ' + textActive + '" onclick="setIconMode(\'' + prefix + '\', \'text\', this)">Text</button>' +
+      '<button type="button" class="toggle-btn ' + imgActive + '" onclick="setIconMode(\'' + prefix + '\', \'image\', this)">Image</button>' +
+    '</div>' +
+    '<input type="hidden" id="' + prefix + '-iconType" data-field="iconType" value="' + escapeAttr(iconType) + '" />' +
+  '</div>' +
+  '<div id="' + prefix + '-text-fields" class="icon-text-fields" ' + textVisible + '>' +
+    '<div class="settings-field" style="display:flex;gap:8px;align-items:end">' +
+      '<div style="flex:1"><label>Character</label><input id="' + prefix + '-icon" data-field="icon" value="' + escapeAttr(iconVal) + '" onchange="scheduleSettingsSave()" placeholder="W" /></div>' +
+      '<div><label>Color</label><input type="color" id="' + prefix + '-iconColor" data-field="iconColor" value="' + escapeAttr(colorVal) + '" onchange="scheduleSettingsSave()" style="width:60px;height:38px;padding:2px" /></div>' +
+    '</div>' +
+  '</div>' +
+  '<div id="' + prefix + '-image-field" class="icon-image-field" ' + imgVisible + '>' +
+    imageField(prefix + '-iconImage', 'Icon Image', imgVal, 'iconImage') +
+  '</div>';
+}
+
+function setIconMode(prefix, mode, btn) {
+  document.getElementById(prefix + '-iconType').value = mode;
+  var allBtns = btn.parentNode.querySelectorAll('.toggle-btn');
+  allBtns.forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  var textFields = document.getElementById(prefix + '-text-fields');
+  var imageField = document.getElementById(prefix + '-image-field');
+  if (textFields) textFields.style.display = mode === 'text' ? '' : 'none';
+  if (imageField) imageField.style.display = mode === 'image' ? '' : 'none';
+  scheduleSettingsSave();
 }
 
 function arrayItem(label, fieldsHtml, removeHandler) {
@@ -704,7 +746,7 @@ function removeSocialItem(btn) {
 function addServiceItem() {
   var data = collectAllSettings();
   data.services = data.services || [];
-  data.services.push({ title: '', description: '' });
+  data.services.push({ title: '', description: '', iconType: 'text', icon: '', iconColor: '#e74c3c', iconImage: '' });
   settingsData = data;
   renderSettings();
   scheduleSettingsSave();
@@ -717,7 +759,7 @@ function removeServiceItem(btn) {
 function addTestimonialItem() {
   var data = collectAllSettings();
   data.testimonials = data.testimonials || [];
-  data.testimonials.push({ name: '', text: '', image: '' });
+  data.testimonials.push({ name: '', text: '', image: '', iconType: 'text', icon: '', iconColor: '#3498db', iconImage: '' });
   settingsData = data;
   renderSettings();
   scheduleSettingsSave();
@@ -764,8 +806,8 @@ function collectAllSettings() {
     social: collectSectionArray('sett-section-Social-Links', ['name', 'url', 'label']),
     contact: { email: val('sett-contact-email') },
     about: { image: val('sett-about-img') },
-    services: collectSectionArray('sett-section-Services', ['title', 'description']),
-    testimonials: collectSectionArray('sett-section-Testimonials', ['name', 'text', 'image']),
+    services: collectSectionArray('sett-section-Services', ['title', 'description', 'iconType', 'icon', 'iconColor', 'iconImage']),
+    testimonials: collectSectionArray('sett-section-Testimonials', ['name', 'text', 'image', 'iconType', 'icon', 'iconColor', 'iconImage']),
     instagram: { username: val('sett-insta-username') }
   };
 }

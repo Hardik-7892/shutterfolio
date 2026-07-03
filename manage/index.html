@@ -485,6 +485,44 @@
       border-radius: 4px;
     }
 
+    .toggle-group {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 6px 12px;
+      border: none;
+      background: var(--bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    .toggle-btn.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .icon-text-fields,
+    .icon-image-field {
+      margin-top: 0;
+    }
+
+    .icon-image-field .settings-field {
+      margin-bottom: 0;
+    }
+
     .array-item {
       background: var(--bg);
       border-radius: 6px;

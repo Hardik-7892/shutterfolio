@@ -90,7 +90,12 @@
       <div class="services-grid">
         <template x-for="(service, i) in settings.services" :key="service.title">
           <div class="service-card">
-            <div class="icon" x-text="['W','P','E','L','B','O'][i] || '•'"></div>
+            <template x-if="service.iconType === 'image' && service.iconImage">
+              <img class="icon" :src="service.iconImage" :alt="service.title" />
+            </template>
+            <template x-if="!service.iconType || service.iconType !== 'image'">
+              <div class="icon" :style="'background:'+(service.iconColor||'#333')" x-text="(service.icon || service.title || '•').charAt(0).toUpperCase()"></div>
+            </template>
             <h3 x-text="service.title"></h3>
             <p x-text="service.description"></p>
           </div>
@@ -107,7 +112,12 @@
       <div class="testimonials-grid">
         <template x-for="t in settings.testimonials" :key="t.name">
           <div class="testimonial-card">
-            <img :src="t.image" :alt="t.name" loading="lazy" />
+            <template x-if="t.iconType === 'image'">
+              <img class="icon" :src="t.iconImage || t.image" :alt="t.name" loading="lazy" />
+            </template>
+            <template x-if="!t.iconType || t.iconType !== 'image'">
+              <div class="icon" :style="'background:'+(t.iconColor||'#333')" x-text="(t.icon || t.name || '•').charAt(0).toUpperCase()"></div>
+            </template>
             <p class="text" x-text="t.text"></p>
             <h4 x-text="t.name"></h4>
           </div>

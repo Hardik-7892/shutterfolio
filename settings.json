@@ -29,36 +29,64 @@
   "services": [
     {
       "title": "Wedding Photography",
-      "description": "Capturing your special day from beginning to end. Every laugh, tear, and dance move documented beautifully."
+      "description": "Capturing your special day from beginning to end. Every laugh, tear, and dance move documented beautifully.",
+      "iconType": "text",
+      "icon": "W",
+      "iconColor": "#e74c3c",
+      "iconImage": ""
     },
     {
       "title": "Portrait Sessions",
-      "description": "Professional portraits for individuals, families, and couples. Studio or location — your choice."
+      "description": "Professional portraits for individuals, families, and couples. Studio or location — your choice.",
+      "iconType": "text",
+      "icon": "P",
+      "iconColor": "#3498db",
+      "iconImage": ""
     },
     {
       "title": "Event Photography",
-      "description": "Corporate events, parties, and special occasions. Discrete, professional coverage for any event size."
+      "description": "Corporate events, parties, and special occasions. Discrete, professional coverage for any event size.",
+      "iconType": "text",
+      "icon": "E",
+      "iconColor": "#2ecc71",
+      "iconImage": ""
     },
     {
       "title": "Landscape & Travel",
-      "description": "Stunning landscapes and travel photography for brands, publications, and personal projects."
+      "description": "Stunning landscapes and travel photography for brands, publications, and personal projects.",
+      "iconType": "text",
+      "icon": "L",
+      "iconColor": "#f39c12",
+      "iconImage": ""
     }
   ],
   "testimonials": [
     {
       "name": "Sarah & Mike",
       "text": "Jane captured our wedding perfectly. Every photo tells a story. We couldn't be happier with the results.",
-      "image": "assets/images/samples/testimonial-1.jpg"
+      "image": "assets/images/samples/testimonial-1.jpg",
+      "iconType": "image",
+      "icon": "",
+      "iconColor": "",
+      "iconImage": "assets/images/samples/testimonial-1.jpg"
     },
     {
       "name": "David Chen",
       "text": "Professional, creative, and incredibly easy to work with. The portraits exceeded my expectations.",
-      "image": "assets/images/samples/testimonial-2.jpg"
+      "image": "assets/images/samples/testimonial-2.jpg",
+      "iconType": "image",
+      "icon": "",
+      "iconColor": "",
+      "iconImage": "assets/images/samples/testimonial-2.jpg"
     },
     {
       "name": "Emily Rodriguez",
       "text": "The event photos were stunning. Jane has an incredible eye for detail and captured moments we didn't even notice.",
-      "image": "assets/images/samples/testimonial-3.jpg"
+      "image": "assets/images/samples/testimonial-3.jpg",
+      "iconType": "image",
+      "icon": "",
+      "iconColor": "",
+      "iconImage": "assets/images/samples/testimonial-3.jpg"
     }
   ],
   "instagram": {

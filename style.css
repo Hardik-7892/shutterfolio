@@ -532,7 +532,8 @@ header.scrolled .hamburger span {
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 1.3rem;
-  color: var(--text);
+  color: #fff;
+  object-fit: cover;
 }
 
 .service-card h3 {
@@ -566,12 +567,17 @@ header.scrolled .hamburger span {
   text-align: center;
 }
 
-.testimonial-card img {
+.testimonial-card .icon {
   width: 64px;
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #fff;
 }
 
 .testimonial-card .text {

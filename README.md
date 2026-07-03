@@ -34,6 +34,8 @@ Click the button above to:
 
 After deployment, your application will be available at your own Vercel URL, for example: `https://shutterfolio.vercel.app` and the admin panel is at `https://shutterfolio.vercel.app/manage/`.
 
+> **Note:** Your deployment URL will be different from the example above unless you configure a custom domain.
+
 ---
 
 ## Setup: Generate a GitHub Token

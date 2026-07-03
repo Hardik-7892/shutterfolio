@@ -16,9 +16,21 @@
     "buttonLink": "#gallery"
   },
   "social": [
-    { "name": "Instagram", "url": "https://instagram.com/", "label": "IG" },
-    { "name": "Twitter", "url": "https://twitter.com/", "label": "X" },
-    { "name": "Facebook", "url": "https://facebook.com/", "label": "FB" }
+    {
+      "name": "Instagram",
+      "url": "https://instagram.com/",
+      "label": "IG"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/",
+      "label": "X"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://facebook.com/",
+      "label": "FB"
+    }
   ],
   "contact": {
     "email": "hello@janedoe.com"
